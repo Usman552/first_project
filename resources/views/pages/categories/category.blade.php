@@ -1,5 +1,5 @@
 @extends('app')
-@section('page_title', 'Products')
+@section('page_title', 'categories')
 
 
 @section('content')
@@ -10,7 +10,7 @@
                     <div class="card-body p-3 d-flex justify-content-between ">
                         <h5 class="font-weight-bolder mb-0 text-start">All Categories</h5>
                         <div class="ms-auto">
-                            <a href="{{ route('products.addproduct') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
+                            <a href="{{ route('categories.addcategory') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
                                 <i class="fa-solid fa-plus"></i> Add Category
                             </a>
                         </div>

@@ -10,7 +10,7 @@
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <h5 class="font-weight-bolder mb-0">Add a new Category</h5>
-                            <a href="{{ route('products.product') }}" class="btn btn-primary btn-sm ms-auto mb-0">
+                            <a href="{{ route('categories.category') }}" class="btn btn-primary btn-sm ms-auto mb-0">
                                 Back to Category
                             </a>
                         </div>

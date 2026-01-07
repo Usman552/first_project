@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\category;
 
 use Illuminate\Http\Request;
@@ -12,8 +13,8 @@ class categorycontroller extends Controller
      */
     public function index()
     {
-        $category=category::paginate(10);
-        return view("pages.categories.category").compact('category');
+        $category = category::paginate(10);
+        return view("pages.categories.category", compact('category'));
     }
 
     /**
@@ -30,9 +31,18 @@ class categorycontroller extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required','max:255'
+            'name' => 'required',
+            'max:255'
         ]);
+        category::create([
+            'name' => $request->name,
+            'status' => $request->status
+
+        ]);
+        return redirect()->route('products.product')
+            ->with('success', 'Product added successfully');
     }
+
 
     /**
      * Display the specified resource.

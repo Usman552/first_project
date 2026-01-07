@@ -21,7 +21,7 @@
              <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                  aria-label="Main navigation" data-accordion="false" id="navigation">
                  <li class="nav-item {{ request()->routeIs('dashboard') ? 'menu-open' : '' }}">
-                     {{-- <a href="{{ route('dashboard') }}" class="nav-link"> --}}
+                     <a href="{{ url('/') }}" class="nav-link">
                          <i class="nav-icon bi bi-speedometer"></i>
                          <p>Dashboard</p>
                      </a>
@@ -34,8 +34,8 @@
                      </a>
                  </li>
 
-                 <li class="nav-item menu-open">
-                     <a href="{{ Route('category') }}" class="nav-link ">
+                 <li class="nav-item  {{ request()->routeIs('categories*') ? 'menu-open .nav-link,active' : '' }}">
+                     <a href="{{ Route('categories.category') }}" class="nav-link ">
                          <i class="nav-icon bi bi-tags"></i>
                          <p>
                              Categories

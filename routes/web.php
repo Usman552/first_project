@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\categorycontroller;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Name;
@@ -18,11 +19,10 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('destroyproduct');
 });
 
-Route::get('/',function (){
-    return view('pages.categories.category');
-})->name('category');
-
-// Route::prefix('category')->('category.')->group(function (){
 
 
-// });
+Route::prefix('categories')->name('categories.')->group(function () {
+    Route::get('/', [categorycontroller::class, 'index'])->name('category');
+    Route::get('/add-category', [categorycontroller::class, 'create'])->name('addcategory');
+    
+});

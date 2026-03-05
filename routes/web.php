@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\categorycontroller;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Name;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/',[Controller::class,'index'])->name('dashboard');
 
 
 Route::prefix('products')->name('products.')->group(function () {

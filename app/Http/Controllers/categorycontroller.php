@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
-
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class categorycontroller extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $category = category::paginate(10);
+        $category = Category::paginate(10);
         return view("pages.categories.category", compact('category'));
     }
 
-    /**
-     * Show the form for creating a new resource.
+    /*
+      Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('pages.categories.AddCategory');
+        $category = Category::where('status', 1)->get();
+        return view('pages.categories.AddCategory', compact('category'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -31,17 +33,28 @@ class categorycontroller extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'max:255'
+            'name' => 'required|max:255',
+            'status' => 'nullable|integer'
         ]);
-        category::create([
+        Category::create([
             'name' => $request->name,
-            'status' => $request->status
+            'status' => $request->status ?? 1,
+            'slug' => Str::slug($request->name)
 
         ]);
-        return redirect()->route('products.product')
-            ->with('success', 'Product added successfully');
+        return redirect()->route('categories.category')
+            ->with('success', 'Category added successfully');
     }
+
+    public function toggleStatus($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->status = $category->status ? 0 : 1;
+        $category->save();
+
+        return response()->json(['status' => $category->status]);
+    }
+
 
 
     /**
@@ -57,7 +70,8 @@ class categorycontroller extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category =  Category::findOrFail($id);
+        return view('pages.categories.editCategory', compact('category'));
     }
 
     /**
@@ -65,7 +79,19 @@ class categorycontroller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+            'status' => 'nullable|integer'
+        ]);
+        $category =  Category::findOrFail($id);
+
+        $category->name = $request->name;
+        $category->status = $request->status ?? 1;
+        $category->slug = Str::slug($request->name);
+        $category->save();
+
+        return redirect()->route('categories.category')
+            ->with('success', 'Category updated successfully');
     }
 
     /**
@@ -73,6 +99,7 @@ class categorycontroller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Category::findOrFail($id)->delete();
+        return redirect()->route('categories.category')->with('success', 'Category Deleted successfully');
     }
 }

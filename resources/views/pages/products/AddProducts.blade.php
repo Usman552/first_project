@@ -67,6 +67,27 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                             <div class="col-md-3 mb-3">
+                                 <label class="form-label text-sm">
+                                Category <span class="text-danger">*</span>
+                                   </label>
+
+                               <select name="category_id"
+                                   class="form-control @error('category_id') is-invalid @enderror">
+                                    <option value="">-- Select Category --</option>
+                                     @foreach ($category as $cat)
+                                         <option value="{{ $cat->id }}"
+                                            {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                              {{ $cat->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+ 
+                                                     @error('category_id')
+                                                         <span class="text-danger">{{ $message }}</span>
+                                                         @enderror
+                                                               </div>
+
 
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label text-sm">Short Description <span

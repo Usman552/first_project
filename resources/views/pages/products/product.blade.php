@@ -41,6 +41,9 @@
                                             Product</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Category</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Full Price</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
@@ -63,6 +66,9 @@
                                             Dimension</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Status</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -73,6 +79,7 @@
                                             <td> <img src="{{ asset('uploads/' . $p->image) }}" height="50px"
                                                     width="50px" alt=""> </td>
                                             <td> {{ $p->name }} </td>
+                                            <td> {{ $p->category->name ?? 'No Category' }} </td>
                                             <td> {{ $p->full_price }} </td>
                                             <td> {{ $p->original_price }} </td>
                                             <td> {{ $p->short_description }} </td>
@@ -80,7 +87,8 @@
                                             <td> {{ $p->brand }} </td>
                                             <td> {{ $p->weight }} </td>
                                             <td> {{ $p->dimension }} </td>
-                                            <td>
+                                            <td> {{ $p->status }} </td>
+                                            <td class="d-flex gap-1">
                                                 <a href="{{ route('products.editproduct',$p->id) }}" class="btn btn-sm btn-primary">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>

@@ -1,5 +1,5 @@
 @extends('app')
-@section('page_title', 'AddCategory')
+@section('page_title', 'EditCategory')
 
 @section('content')
     <div class="container-fluid py-1">
@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
-                            <h5 class="font-weight-bolder mb-0">Add a new Category</h5>
+                            <h5 class="font-weight-bolder mb-0">Edit Category</h5>
                             <a href="{{ route('categories.category') }}" class="btn btn-primary btn-sm ms-auto mb-0">
                                 Back to Category
                             </a>
@@ -22,8 +22,9 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="POST" action="{{route('categories.storecategory')}}">
+                        <form method="POST" action="{{ route('categories.updatecategory',$category->id) }}">
                             @csrf
+                             @method('PUT')
 
                             <div class="row">
                                 {{-- Category Name --}}
@@ -33,7 +34,7 @@
                                     </label>
 
                                     <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror"
+                                        class="form-control @error('name') is-invalid @enderror"value="{{ $category->name }}"
                                         placeholder="Enter category name" value="{{ old('name') }}">
 
                                     @error('name')

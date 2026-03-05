@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('pages.products.AddProducts');
+        $category = Category::where('status', 1)->get();
+        return view('pages.products.AddProducts', compact('category'));
     }
 
     public function store(Request $request)
@@ -33,13 +35,14 @@ class ProductController extends Controller
             'long_description' => 'string',
             'weight' => 'string',
             'dimension' => 'string|max:100',
+            'category_id' => 'required|exists:categories,id,status,1',
+
         ]);
 
         $img = null;
         if ($request->hasFile('image')) {
-            $img = time().'.'.$request->image->extension();
+            $img = time() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads'), $img);
-
         }
 
         Product::create([
@@ -53,11 +56,12 @@ class ProductController extends Controller
             'long_description' => $request->long_description,
             'weight' => $request->weight,
             'dimension' => $request->dimension,
+            'category_id' => $request->category_id,
+            // 'name' => $request->name,
         ]);
 
         return redirect()->route('products.product')
             ->with('success', 'Product added successfully');
-
     }
 
     public function destroy($id)
@@ -65,12 +69,11 @@ class ProductController extends Controller
         Product::findOrFail($id)->delete();
 
         return redirect()->route('products.product')->with('success', 'Product Deleted successfully');
-
     }
 
     public function edit($id)
     {
-      $product= Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
         return view('pages.products.editProduct', compact('product'));
     }
@@ -83,7 +86,7 @@ class ProductController extends Controller
             'full_price' => 'required|integer|min:1',
             'original_price' => 'required|integer|min:1',
             'short_description' => 'required|string|max:255',
-            'sku' => 'required|string|max:100|unique:products,sku,'.$id,
+            'sku' => 'required|string|max:100|unique:products,sku,' . $id,
             'brand' => 'string|max:100',
             'long_description' => 'string',
             'weight' => 'string',
@@ -94,11 +97,11 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             // Old image delete
-            if ($product->image && file_exists(public_path('uploads/'.$product->image))) {
-                unlink(public_path('uploads/'.$product->image));
+            if ($product->image && file_exists(public_path('uploads/' . $product->image))) {
+                unlink(public_path('uploads/' . $product->image));
             }
 
-            $img = time().'.'.$request->image->extension();
+            $img = time() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads'), $img);
             $product->image = $img;
         }

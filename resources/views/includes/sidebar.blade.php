@@ -42,6 +42,14 @@
                          </p>
                      </a>
                  </li>
+                 <li class="nav-item  {{ request()->routeIs('users*') ? 'menu-open .nav-link,active' : '' }}">
+                      <a href="{{ route('users.index') }}"  class="nav-link ">
+                         <i class="nav-icon bi bi-people-fill"></i>
+                         <p>
+                             Users
+                         </p>
+                     </a>
+                 </li>
              </ul>
              <!--end::Sidebar Menu-->
          </nav>

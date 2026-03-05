@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\categorycontroller;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Name;
 
@@ -28,4 +30,15 @@ Route::prefix('categories')->name('categories.')->group(function () {
     Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('editcategory');
     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('updatecategory');
     Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroycategory');
+});
+
+Route::prefix('auth')->name('auth.')->group(function(){
+    Route::get('/sign-up',[AuthController::class,'register'])->name('signup');
+    Route::get('/sign-in',[AuthController::class,'signin'])->name('signin');
+});
+
+Route::prefix('users')->name('users.')->group(function(){
+    Route::get('/',[UsersController::class,'index'])->name('index');
+    Route::post('/store',[AuthController::class,'store'])->name('registerUser');
+
 });

@@ -13,7 +13,7 @@
                             <a href="{{ route('categories.addcategory') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
                                 <i class="fa-solid fa-plus"></i> Add Category
                             </a>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>

@@ -48,9 +48,13 @@
                       </li>
                       <!--end::Menu Body-->
                       <!--begin::Menu Footer-->
-                      <li class="user-footer">
+                      <li class="user-footer d-flex justify-content-between">
                           <a href="#" class="btn btn-default btn-flat">Profile</a>
-                          <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+
+                          <form action="{{ route('auth.logout') }}" method="POST">
+                              @csrf
+                              <button type="submit" class="btn btn-default btn-flat">Sign out</button>
+                          </form>
                       </li>
                       <!--end::Menu Footer-->
                   </ul>
@@ -62,4 +66,3 @@
       <!--end::Container-->
   </nav>
   <!--begin::Row-->
-

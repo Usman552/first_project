@@ -257,7 +257,7 @@
         @endif
 
         <!-- Login Form -->
-        <form action="#" method="POST">
+        <form action="{{route('auth.loginUser')}}" method="POST">
             @csrf
 
             <!-- Email Field -->

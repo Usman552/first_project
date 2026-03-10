@@ -13,17 +13,21 @@ class AuthController extends Controller
      */
     public function register()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard'); // already logged in
+        }
         return view('pages.Auth.sign_up');
     }
+
     public function signin()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard'); // already logged in
+        }
         return view('pages.Auth.sign_in');
     }
     public function create() {}
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -44,8 +48,30 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
-           return redirect()->route('users.index')
+        return redirect()->route('users.index')
             ->with('success', 'User added successfully');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (auth()->attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'))->with('success','Login Successfully');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('auth.login')->with('success', 'Logged out successfully.');
     }
 
 

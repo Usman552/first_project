@@ -419,7 +419,7 @@
                         <p>Get started with your free account today</p>
                     </div>
 
-                    <form action="{{route ('users.registerUser') }}" method="POST">
+                    <form action="{{route ('auth.registerUser') }}" method="POST">
                         @csrf
 
                         <!-- Name & Email Row -->
@@ -541,7 +541,7 @@
 
                         <!-- Login Link -->
                         <div class="login-link">
-                            Already have an account? <a href="{{ route('auth.signin') }}">Sign in</a>
+                            Already have an account? <a href="{{ route('auth.login') }}">Sign in</a>
                         </div>
                     </form>
                 </div>

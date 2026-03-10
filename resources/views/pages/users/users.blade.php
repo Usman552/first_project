@@ -17,12 +17,12 @@
 
         <div class="row mt-2">
             <div class="col-12">
-                <div class="card p-0 rounded">
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
+                <div class="card p-0 rounded h-100" >
+                    <div class="card-body px-0 pt-0 pb-2" style="height: 500px;>
+                        <div class="table-responsive p-0 h-100">
                             <table id="usersTable" class="table mb-0 align-items-center">
                                 <thead>
-                                    <tr>
+                                    <tr class="py-2">
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Serial</th>
@@ -50,46 +50,48 @@
                                     </tr>
                                 </thead>
                                 @foreach ($users as $user)
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">{{$loop->iteration}}</td>
-                                        <td class="text-center">{{$user->name}}</td>
-                                        <td class="text-center">{{$user->email}}</td>
-                                        <td class="text-center">{{$user->role}}</td>
-                                        <td class="text-center">{{$user->phone}}</td>
-                                        <td class="text-center">{{$user->address}}</td>
-                                        <td class="text-center">{{$user->created_at}}</td>
-                                        <td class="text-center">
-                                            <div class="dropup">
-                                                <button class="btn btn-sm btn-light border-0" data-bs-toggle="dropdown"
-                                                    data-bs-boundary="viewport">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </button>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-center">{{ $user->name }}</td>
+                                            <td class="text-center">{{ $user->email }}</td>
+                                            <td class="text-center">{{ $user->role }}</td>
+                                            <td class="text-center">{{ $user->phone }}</td>
+                                            <td class="text-center">{{ $user->address }}</td>
+                                            <td class="text-center">{{ $user->created_at }}</td>
+                                            <td class="text-center position-relative">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm action-btn" data-bs-toggle="dropdown">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
 
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="bi bi-pencil-square me-2"></i> Edit
-                                                        </a>
-                                                    </li>
+                                                    <ul class="dropdown-menu dropdown-menu-end action-menu">
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="bi bi-pencil-square me-2 text-primary"></i>
+                                                                Edit
+                                                            </a>
+                                                        </li>
 
-                                                    <li>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="bi bi-person-gear me-2"></i> Edit Role
-                                                        </a>
-                                                    </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="bi bi-person-gear me-2 text-warning"></i>
+                                                                Edit Role
+                                                            </a>
+                                                        </li>
 
-                                                    <li>
-                                                        <button class="dropdown-item text-danger">
-                                                            <i class="bi bi-trash me-2"></i> Delete
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                        <li>
+                                                            <button class="dropdown-item text-danger">
+                                                                <i class="bi bi-trash me-2"></i>
+                                                                Delete
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                </tbody>
+                                    </tbody>
                                 @endforeach
 
                             </table>

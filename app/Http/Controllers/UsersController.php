@@ -12,7 +12,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users=User::paginate(10);
+        $users = User::paginate(10);
         return view('pages.users.users', compact('users'));
     }
 
@@ -45,7 +45,8 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $users = User::findOrFail($id);
+        return view('pages.users.editUser', compact('users'));
     }
 
     /**
@@ -53,7 +54,23 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
+            'phone' => ['required', 'string', 'max:20'],
+            'address' => ['required', 'string', 'max:500'],
+        ]);
+
+        $users = User::findOrFail($id);
+        $users->name = $request->name;
+        $users->email = $request->email;
+        $users->phone = $request->phone;
+        $users->address = $request->address;
+
+
+        $users->save();
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
     /**

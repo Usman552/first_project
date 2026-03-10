@@ -67,7 +67,7 @@
 
                                                     <ul class="dropdown-menu dropdown-menu-end action-menu">
                                                         <li>
-                                                            <a class="dropdown-item" href="#">
+                                                            <a class="dropdown-item" href="{{ route('users.edit',$user->id)}}">
                                                                 <i class="bi bi-pencil-square me-2 text-primary"></i>
                                                                 Edit
                                                             </a>

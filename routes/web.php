@@ -8,8 +8,6 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 
-
-
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [Controller::class, 'index'])->name('dashboard');
@@ -36,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
+        Route::get('user/edit/{id}',[UsersController::class,'edit'])->name('edit');
+        Route::put('user/update/{id}',[UsersController::class,'update'])->name('update');
     });
 });
 
@@ -44,5 +44,5 @@ Route::prefix('auth')->name('auth.')->group(function () {
     Route::get('/sign-in', [AuthController::class, 'signin'])->name('login');
     Route::post('/store', [AuthController::class, 'store'])->name('registerUser');
     Route::post('/login', [AuthController::class, 'login'])->name('loginUser');
-    Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

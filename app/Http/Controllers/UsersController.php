@@ -74,24 +74,25 @@ class UsersController extends Controller
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
-public function updateRole(Request $request, $id)
-{
-    // Sirf admin allow hoga
-    if (Auth::user()->role !== 'admin') {
-        abort(403, 'Unauthorized action.');
+    public function updateRole(Request $request, $id)
+    {
+        dd($request->role);
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'role' => 'required|in:admin,customer,user'
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'role' => $request->role
+        ]);
+
+        return redirect()->back()->with('success', 'User role updated successfully');
     }
-
-    $request->validate([
-        'role' => 'required'
-    ]);
-
-    $user = User::findOrFail($id);
-
-    $user->role = $request->role;
-    $user->save();
-
-    return redirect()->back()->with('success', 'User role updated successfully');
-}
 
     /**
      * Remove the specified resource from storage.
@@ -102,6 +103,6 @@ public function updateRole(Request $request, $id)
         $users = User::findOrFail($id);
         $users->delete();
 
-        return redirect()->route('users.index')->with('success','User deleted Successfully');
+        return redirect()->route('users.index')->with('success', 'User deleted Successfully');
     }
 }

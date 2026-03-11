@@ -26,13 +26,13 @@
                     <input type="email" name="email" class="form-control" value="{{ $users->email }}">
                 </div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label class="form-label">Role</label>
                     <select name="role" class="form-select">
                         <option value="admin" {{ $users->role == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="user" {{ $users->role == 'user' ? 'selected' : '' }}>User</option>
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="mb-3">
                     <label class="form-label">Phone</label>

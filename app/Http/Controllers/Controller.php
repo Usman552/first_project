@@ -16,7 +16,7 @@ class Controller extends BaseController
     public function index()
     {
         $totalproducts = Product::count();
-         $TotalCategories = Category::count(); 
+         $TotalCategories = Category::where('status','1')->count(); 
          $TotalUsers=User::count(); 
         return view('dashboard', compact('totalproducts','TotalCategories','TotalUsers'));
     }

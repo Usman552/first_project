@@ -419,7 +419,7 @@
                         <p>Get started with your free account today</p>
                     </div>
 
-                    <form action="{{route ('auth.registerUser') }}" method="POST">
+                    <form action="{{ route('auth.registerUser') }}" method="POST">
                         @csrf
 
                         <!-- Name & Email Row -->
@@ -502,7 +502,7 @@
                                     <div class="input-wrapper">
                                         <i class="fas fa-phone-alt"></i>
                                         <input type="tel" class="form-control" name="phone" id="phone"
-                                            placeholder="+1 (555) 000-0000" value="{{ old('phone') }}" required>
+                                            placeholder="0300-0000000" value="{{ old('phone') }}" required>
                                     </div>
                                     @error('phone')
                                         <small class="error-message">{{ $message }}</small>
@@ -617,9 +617,13 @@
 
         // Phone Number Formatting
         const phone = document.getElementById('phone');
+
         phone.addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,7})/);
+
+            e.target.value = x[2] ? x[1] + '-' + x[2] : x[1];
+
         });
 
         // Floating Labels Effect (Optional)

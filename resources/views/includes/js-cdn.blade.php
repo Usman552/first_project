@@ -34,7 +34,31 @@
             }
         });
     </script>
-       <script>
+  @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: "{{ $errors->first() }}",
+            });
+        </script>
+    @endif
+
+
+    <script>
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 let id = this.dataset.id;
@@ -53,6 +77,33 @@
             });
         });
     </script>
+    <script>
+        function toggleStatus(id, el) {
+            fetch('/categories/category/toggle-status/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == 1) {
+                        el.classList.remove('bg-danger');
+                        el.classList.add('bg-success');
+                        el.innerText = 'Active';
+                    } else {
+                        el.classList.remove('bg-success');
+                        el.classList.add('bg-danger');
+                        el.innerText = 'Inactive';
+                    }
+                })
+                .catch(err => console.log(err));
+        }
+    </script>
+
+@endsection
 
 
 

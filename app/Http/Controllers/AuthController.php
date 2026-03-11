@@ -51,14 +51,22 @@ class AuthController extends Controller
         return redirect()->route('users.index')
             ->with('success', 'User added successfully');
     }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'))->with('success','Login Successfully');
+
+            // Check if logged-in user has 'admin' role
+            if (auth()->user()->role === 'admin') {
+                return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully');
+            } else {
+                auth()->logout(); // Optional: log out if not admin
+                return back()->withErrors([
+                    'email' => 'You do not have admin access.',
+                ]);
+            }
         }
 
         return back()->withErrors([

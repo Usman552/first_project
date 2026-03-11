@@ -76,7 +76,7 @@ class UsersController extends Controller
 
     public function updateRole(Request $request, $id)
     {
-        dd($request->role);
+        // dd($request->role);
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }

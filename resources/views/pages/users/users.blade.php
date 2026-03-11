@@ -96,17 +96,15 @@
                                                         <form id="delete-form-{{ $user->id }}"
                                                             action="{{ route('users.destroy', $user->id) }}"
                                                             method="POST">
-
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit"
+                                                            <button type="button"
                                                                 class="btn btn-sm btn-danger dropdown-item delete-btn"
                                                                 data-id="{{ $user->id }}">
                                                                 <i class="bi bi-trash me-2"></i>
                                                                 Delete
                                                             </button>
-
                                                         </form>
                                                     </li>
                                                 </ul>
@@ -124,37 +122,37 @@
         </div>
     </div>
     <div class="modal fade" id="roleModal{{ $user->id }}" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Update Role</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-      <form action="{{ route('users.updateRole', $user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+                <form action="{{ route('users.updateRole', $user->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-        <div class="modal-body">
+                    <div class="modal-body">
 
-            <select name="role" class="form-control">
-                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                <option value="customer" {{ $user->role == 'customer' ? 'selected' : '' }}>Customer</option>
-            </select>
+                        <select name="role" class="form-control">
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="customer" {{ $user->role == 'customer' ? 'selected' : '' }}>Customer</option>
+                        </select>
 
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update Role</button>
+                    </div>
+
+                </form>
+
+            </div>
         </div>
-
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Update Role</button>
-        </div>
-
-      </form>
-
     </div>
-  </div>
-</div>
 
     <footer class="footer pt-3">
         <div class="container-fluid">

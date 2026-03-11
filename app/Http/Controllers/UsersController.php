@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -73,11 +74,34 @@ class UsersController extends Controller
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
+public function updateRole(Request $request, $id)
+{
+    // Sirf admin allow hoga
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'role' => 'required'
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $user->role = $request->role;
+    $user->save();
+
+    return redirect()->back()->with('success', 'User role updated successfully');
+}
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        // dd($id);
+        $users = User::findOrFail($id);
+        $users->delete();
+
+        return redirect()->route('users.index')->with('success','User deleted Successfully');
     }
 }

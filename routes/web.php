@@ -34,8 +34,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
-        Route::get('user/edit/{id}',[UsersController::class,'edit'])->name('edit');
-        Route::put('user/update/{id}',[UsersController::class,'update'])->name('update');
+        Route::get('user/edit/{id}', [UsersController::class, 'edit'])->name('edit');
+        Route::put('user/update/{id}', [UsersController::class, 'update'])->name('update');
+        Route::delete('user/delete/{id}', [UsersController::class, 'destroy'])->name('destroy');
+        Route::put('/users/{id}/role', [UsersController::class, 'updateRole'])->name('updateRole');
     });
 });
 

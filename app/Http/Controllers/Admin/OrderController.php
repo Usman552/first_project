@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\category;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\OrderModel;
 use Illuminate\Http\Request;
 
-class categorycontroller extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $category=category::paginate(10);
-        return view("pages.categories.category").compact('category');
+        $orders =OrderModel::latest()->get();
+        return view('Admin.orders.orders',compact('orders'));
     }
 
     /**
@@ -21,7 +22,7 @@ class categorycontroller extends Controller
      */
     public function create()
     {
-        return view('pages.categories.AddCategory');
+        //
     }
 
     /**
@@ -29,9 +30,7 @@ class categorycontroller extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required','max:255'
-        ]);
+        //
     }
 
     /**

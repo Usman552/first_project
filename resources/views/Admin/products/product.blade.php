@@ -8,10 +8,10 @@
             <div class="col-12 mb-4">
                 <div class="card">
                     <div class="card-body p-3 d-flex justify-content-between ">
-                        <h5 class="font-weight-bolder mb-0 text-start">All Categories</h5>
+                        <h5 class="font-weight-bolder mb-0 text-start">All Products</h5>
                         <div class="ms-auto">
                             <a href="{{ route('products.addproduct') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
-                                <i class="fa-solid fa-plus"></i> Add Category
+                                <i class="fa-solid fa-plus"></i> Add Product
                             </a>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card p-0" style="height: 500px;">
                     <div class="card-header pb-0">
-                        <h6>Categories table</h6>
+                        <h6>Product table</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2" style="height: 430px; overflow-y: auto;">
                         <div class="table-responsive p-0">
@@ -35,25 +35,51 @@
                                             Serial</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Name</th>
+                                            Image</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Product</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Category</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Full Price</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Original Price</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Short Description</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            SKU</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Brand</th>
+
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Weight</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Dimension</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Status</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Created At</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Action</th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
+                                <tbody>
                                     @foreach ($product as $p)
                                         <tr>
                                             <td> {{ $loop->iteration }} </td>
                                             <td> <img src="{{ asset('uploads/' . $p->image) }}" height="50px"
                                                     width="50px" alt=""> </td>
                                             <td> {{ $p->name }} </td>
+                                            <td> {{ $p->category->name ?? 'No Category' }} </td>
                                             <td> {{ $p->full_price }} </td>
                                             <td> {{ $p->original_price }} </td>
                                             <td> {{ $p->short_description }} </td>
@@ -61,7 +87,8 @@
                                             <td> {{ $p->brand }} </td>
                                             <td> {{ $p->weight }} </td>
                                             <td> {{ $p->dimension }} </td>
-                                            <td>
+                                            <td> {{ $p->status }} </td>
+                                            <td class="d-flex gap-1">
                                                 <a href="{{ route('products.editproduct',$p->id) }}" class="btn btn-sm btn-primary">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
@@ -79,7 +106,7 @@
                                         </tr>
 
                                     @endforeach
-                                </tbody> --}}
+                                </tbody>
                             </table>
                         </div>
                     </div>

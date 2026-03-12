@@ -1,5 +1,5 @@
 @extends('app')
-@section('page_title', 'Products')
+@section('page_title', 'categories')
 
 
 @section('content')
@@ -8,12 +8,12 @@
             <div class="col-12 mb-4">
                 <div class="card">
                     <div class="card-body p-3 d-flex justify-content-between ">
-                        <h5 class="font-weight-bolder mb-0 text-start">All Products</h5>
+                        <h5 class="font-weight-bolder mb-0 text-start">All Categories</h5>
                         <div class="ms-auto">
-                            <a href="{{ route('products.addproduct') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
-                                <i class="fa-solid fa-plus"></i> Add Product
+                            <a href="{{ route('categories.addcategory') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
+                                <i class="fa-solid fa-plus"></i> Add Category
                             </a>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card p-0" style="height: 500px;">
                     <div class="card-header pb-0">
-                        <h6>Product table</h6>
+                        <h6>Categories table</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2" style="height: 430px; overflow-y: auto;">
                         <div class="table-responsive p-0">
@@ -35,61 +35,43 @@
                                             Serial</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Image</th>
+                                            Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Product</th>
+                                            Status</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Full Price</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Original Price</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Short Description</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            SKU</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Brand</th>
-
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Weight</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                            Dimension</th>
+                                            Created At</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($product as $p)
+                                @foreach ($category as $cat)
+                                    <tbody>
                                         <tr>
-                                            <td> {{ $loop->iteration }} </td>
-                                            <td> <img src="{{ asset('uploads/' . $p->image) }}" height="50px"
-                                                    width="50px" alt=""> </td>
-                                            <td> {{ $p->name }} </td>
-                                            <td> {{ $p->full_price }} </td>
-                                            <td> {{ $p->original_price }} </td>
-                                            <td> {{ $p->short_description }} </td>
-                                            <td> {{ $p->sku }} </td>
-                                            <td> {{ $p->brand }} </td>
-                                            <td> {{ $p->weight }} </td>
-                                            <td> {{ $p->dimension }} </td>
-                                            <td>
-                                                <a href="{{ route('products.editproduct',$p->id) }}" class="btn btn-sm btn-primary">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-center">{{ $cat->name }}</td>
+                                            <td class="text-center">
+                                                <span class="badge {{ $cat->status ? 'bg-success' : 'bg-danger' }}"
+                                                    style="cursor: pointer"
+                                                    onclick="toggleStatus({{ $cat->id }}, this)">
+                                                    {{ $cat->status ? 'Active' : 'Inactive' }}
+
+                                                </span>
+                                            </td>
+                                            <td class="text-center">{{ $cat->created_at }}</td>
+                                            <td class="text-center">
+                                                <a href="{{route('categories.editcategory',$cat->id)}}" class="btn btn-sm btn-primary">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                    data-id="{{ $p->id }}">
+                                                    data-id="{{ $cat->id }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
-                                                <form id="delete-form-{{ $p->id }}"
-                                                    action="{{ route('products.destroyproduct', $p->id) }}" method="POST"
+                                                <form id="delete-form-{{ $cat->id }}"
+                                                     action="{{ route('categories.destroycategory', $cat->id) }}" 
+                                                     method="POST"
                                                     class="d-none">
                                                     @csrf
                                                     @method('DELETE')
@@ -97,8 +79,9 @@
                                             </td>
                                         </tr>
 
-                                    @endforeach
-                                </tbody>
+                                    </tbody>
+                                @endforeach
+
                             </table>
                         </div>
                     </div>
@@ -176,4 +159,30 @@
             });
         });
     </script>
+    <script>
+        function toggleStatus(id, el) {
+            fetch('/categories/category/toggle-status/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == 1) {
+                        el.classList.remove('bg-danger');
+                        el.classList.add('bg-success');
+                        el.innerText = 'Active';
+                    } else {
+                        el.classList.remove('bg-success');
+                        el.classList.add('bg-danger');
+                        el.innerText = 'Inactive';
+                    }
+                })
+                .catch(err => console.log(err));
+        }
+    </script>
+
 @endsection

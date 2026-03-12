@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,13 +13,13 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::paginate(10);
-        return view('pages.products.product', compact('product'));
+        return view('Admin.products.product', compact('product'));
     }
 
     public function create()
     {
         $category = Category::where('status', 1)->get();
-        return view('pages.products.AddProducts', compact('category'));
+        return view('Admin.products.AddProducts', compact('category'));
     }
 
     public function store(Request $request)
@@ -74,11 +75,12 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        return view('pages.products.editProduct', compact('product'));
+        return view('Admin.products.editProduct', compact('product'));
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->file('image'));
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
@@ -92,16 +94,19 @@ class ProductController extends Controller
             'dimension' => 'string|max:100',
         ]);
 
+
         $product = Product::findOrFail($id);
 
         if ($request->hasFile('image')) {
-            // Old image delete
+
             if ($product->image && file_exists(public_path('uploads/' . $product->image))) {
                 unlink(public_path('uploads/' . $product->image));
             }
 
-            $img = time() . '.' . $request->image->extension();
+            $img = time() . '.' . $request->image->getClientOriginalExtension();
+
             $request->image->move(public_path('uploads'), $img);
+
             $product->image = $img;
         }
 

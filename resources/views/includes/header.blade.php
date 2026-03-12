@@ -2,7 +2,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Dashboard -</title>
+    <title>@yield('title', 'Dashboard')</title>
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!--end::Accessibility Meta Tags-->
-    <!--begin::Primary Meta Tags-->
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -37,7 +36,8 @@
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="/css/adminlte.css" />
+    {{-- <link rel="stylesheet" href="/css/adminlte.css" /> --}}
+   <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}" />
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"

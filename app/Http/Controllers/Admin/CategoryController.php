@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::paginate(10);
-        return view("pages.categories.category", compact('category'));
+        return view("Admin.categories.category", compact('category'));
     }
 
     /*
@@ -23,7 +24,7 @@ class CategoryController extends Controller
     public function create()
     {
         $category = Category::where('status', 1)->get();
-        return view('pages.categories.AddCategory', compact('category'));
+        return view('Admin.categories.AddCategory', compact('category'));
     }
 
 
@@ -71,7 +72,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category =  Category::findOrFail($id);
-        return view('pages.categories.editCategory', compact('category'));
+        return view('Admin.categories.editCategory', compact('category'));
     }
 
     /**

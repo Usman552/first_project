@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\categorycontroller;
+use App\Http\Controllers\Admin\categorycontroller;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +39,14 @@ Route::middleware(['auth'])->group(function () {
         Route::put('user/update/{id}', [UsersController::class, 'update'])->name('update');
         Route::delete('user/delete/{id}', [UsersController::class, 'destroy'])->name('destroy');
         Route::put('/users/{id}/role', [UsersController::class, 'updateRole'])->name('updateRole');
+    });
+
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('order/edit/{id}', [OrderController::class, 'edit'])->name('edit');
+        Route::put('order/update/{id}', [OrderController::class, 'update'])->name('update');
+        Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->name('destroy');
+        Route::put('/order/{id}/role', [OrderController::class, 'updateRole'])->name('updateRole');
     });
 });
 

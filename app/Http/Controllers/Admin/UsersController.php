@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::paginate(10);
-        return view('pages.users.users', compact('users'));
+        return view('Admin.users.users', compact('users'));
     }
 
     /**
@@ -47,7 +48,7 @@ class UsersController extends Controller
     public function edit(string $id)
     {
         $users = User::findOrFail($id);
-        return view('pages.users.editUser', compact('users'));
+        return view('Admin.users.editUser', compact('users'));
     }
 
     /**

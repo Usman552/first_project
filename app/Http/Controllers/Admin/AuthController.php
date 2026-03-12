@@ -16,7 +16,7 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect()->route('dashboard'); // already logged in
         }
-        return view('pages.Auth.sign_up');
+        return view('Admin.Auth.sign_up');
     }
 
     public function signin()
@@ -24,7 +24,7 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect()->route('dashboard'); // already logged in
         }
-        return view('pages.Auth.sign_in');
+        return view('Admin.Auth.sign_in');
     }
     public function create() {}
 

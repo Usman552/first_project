@@ -50,6 +50,14 @@
                          </p>
                      </a>
                  </li>
+                 <li class="nav-item  {{ request()->routeIs('orders*') ? 'menu-open .nav-link,active' : '' }}">
+                      <a href="{{ route('orders.index') }}"  class="nav-link ">
+                         <i class="nav-icon bi bi-bag-check-fill"></i>
+                         <p>
+                             Orders
+                         </p>
+                     </a>
+                 </li>
              </ul>
              <!--end::Sidebar Menu-->
          </nav>

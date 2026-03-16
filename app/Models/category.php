@@ -15,8 +15,8 @@ class Category extends Model
         'status',
     ];
 
-    public function products()
+    public function medicines()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(medicines::class);
     }
 }

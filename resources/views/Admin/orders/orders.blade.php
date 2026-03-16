@@ -1,5 +1,5 @@
 @extends('app')
-@section('title','Orders')
+@section('title', 'Orders')
 
 @section('content')
     <div class="container-fluid py-1">
@@ -9,9 +9,9 @@
                     <div class="card-body p-3 d-flex justify-content-between ">
                         <h5 class="font-weight-bolder mb-0 text-start">All Orders</h5>
                         <div class="ms-auto">
-                            {{-- <a href="{{ route('products.addproduct') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
-                                <i class="fa-solid fa-plus"></i> Add Product
-                            </a> --}}
+                            <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm mb-0 btn  ms-auto ">
+                                <i class="fa-solid fa-plus"></i> Create Order
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -63,37 +63,31 @@
                                 </thead>
                                 <tbody>
                                     {{-- @foreach ($product as $p) --}}
-                                        <tr>
-                                            <td>  </td>
-                                            <td>  </td>
-                                            <td>  </td>
-                                            <td>  </td>
-                                            <td> </td>
-                                            <td>  </td>
-                                            <td> </td>
-                                            <td>  </td>
-                                            <td> </td>
-                                            <td>  </td>
-                                            <td>  </td>
-                                            <td> </td>
-                                            <td class="d-flex gap-1">
-                                                <a href="" class="btn btn-sm btn-primary">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                    data-id="">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                                <form id="delete-form-"
-                                                    action="" method="POST"
-                                                    class="d-none">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="d-flex gap-1">
+                                            <a href="" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <form id="delete-form-" action="" method="POST" class="d-none">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </td>
+                                    </tr>
 
-                                    @endforeach
+                                    {{-- @endforeach --}}
                                 </tbody>
                             </table>
                         </div>

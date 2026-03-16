@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\OrderModel;
+use App\Models\medicines;
+use App\Models\Orders;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,8 +15,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders =OrderModel::latest()->get();
-        return view('Admin.orders.orders',compact('orders'));
+        $orders = Orders::latest()->get();
+        return view('Admin.orders.orders', compact('orders'));
+    }
+    // View Single Order Detail
+    public function show($id)
+    {
+        $order = Orders::with('orderitems.product', 'user')->findOrFail($id);
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
@@ -22,7 +30,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $products =medicines::all();
+        return view ('Admin.orders.AddOrders',compact('products'));
     }
 
     /**
@@ -33,13 +42,6 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

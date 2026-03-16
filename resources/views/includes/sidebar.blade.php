@@ -30,7 +30,7 @@
                  <li class="nav-item {{ request()->routeIs('products*') ? 'menu-open .nav-link.active ' : '' }}">
                      <a href="{{ route('products.product') }}" class="nav-link">
                          <i class="nav-icon bi bi-boxes"></i>
-                         <p>Products</p>
+                         <p>Mediciens</p>
                      </a>
                  </li>
 
@@ -43,7 +43,7 @@
                      </a>
                  </li>
                  <li class="nav-item  {{ request()->routeIs('users*') ? 'menu-open .nav-link,active' : '' }}">
-                      <a href="{{ route('users.index') }}"  class="nav-link ">
+                     <a href="{{ route('users.index') }}" class="nav-link ">
                          <i class="nav-icon bi bi-people-fill"></i>
                          <p>
                              Users
@@ -51,7 +51,7 @@
                      </a>
                  </li>
                  <li class="nav-item  {{ request()->routeIs('orders*') ? 'menu-open .nav-link,active' : '' }}">
-                      <a href="{{ route('orders.index') }}"  class="nav-link ">
+                     <a href="{{ route('orders.index') }}" class="nav-link ">
                          <i class="nav-icon bi bi-bag-check-fill"></i>
                          <p>
                              Orders

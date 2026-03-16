@@ -4,39 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\medicines;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // 1️⃣ Show all products
+    // 1️⃣ Show all medicines
     public function index()
     {
-        $product = Product::paginate(10);
+        $product = medicines::paginate(10);
         return view('Admin.products.product', compact('product'));
     }
 
+    // 2️⃣ Show create form
     public function create()
     {
         $category = Category::where('status', 1)->get();
         return view('Admin.products.AddProducts', compact('category'));
     }
 
+    // 3️⃣ Store medicine
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'full_price' => 'required|integer|min:1',
-            'original_price' => 'required|integer|min:1',
-            'short_description' => 'required|string|max:255',
-            'sku' => 'required|string|max:100|unique:products,sku',
-            'brand' => 'string|max:100',
-            'long_description' => 'string',
-            'weight' => 'string',
-            'dimension' => 'string|max:100',
-            'category_id' => 'required|exists:categories,id,status,1',
-
+            'company' => 'required|string|max:255',
+            'strength' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'price' => 'required|numeric|min:1',
+            'quantity' => 'required|integer|min:1',
+            'batch_no' => 'required|string|max:100',
+            'expiry_date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $img = null;
@@ -45,83 +45,86 @@ class ProductController extends Controller
             $request->image->move(public_path('uploads'), $img);
         }
 
-        Product::create([
+        medicines::create([
             'name' => $request->name,
             'image' => $img,
-            'full_price' => $request->full_price,
-            'original_price' => $request->original_price,
-            'short_description' => $request->short_description,
-            'sku' => $request->sku,
-            'brand' => $request->brand,
-            'long_description' => $request->long_description,
-            'weight' => $request->weight,
-            'dimension' => $request->dimension,
+            'company' => $request->company,
+            'strength' => $request->strength,
+            'type' => $request->type,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'batch_no' => $request->batch_no,
+            'expiry_date' => $request->expiry_date,
             'category_id' => $request->category_id,
-            // 'name' => $request->name,
         ]);
 
         return redirect()->route('products.product')
-            ->with('success', 'Product added successfully');
+            ->with('success', 'Medicine added successfully');
     }
 
+    // 4️⃣ Destroy medicine
     public function destroy($id)
     {
-        Product::findOrFail($id)->delete();
+        $med = medicines::findOrFail($id);
 
-        return redirect()->route('products.product')->with('success', 'Product Deleted successfully');
+        // Delete image if exists
+        if ($med->image && file_exists(public_path('uploads/' . $med->image))) {
+            unlink(public_path('uploads/' . $med->image));
+        }
+
+        $med->delete();
+
+        return redirect()->route('products.product')->with('success', 'Medicine deleted successfully');
     }
 
+    // 5️⃣ Edit medicine
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
-
-        return view('Admin.products.editProduct', compact('product'));
+        $product = medicines::findOrFail($id);
+        $category = Category::where('status', 1)->get();
+        return view('Admin.products.editProduct', compact('product', 'category'));
     }
 
+    // 6️⃣ Update medicine
     public function update(Request $request, $id)
     {
-        // dd($request->file('image'));
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'full_price' => 'required|integer|min:1',
-            'original_price' => 'required|integer|min:1',
-            'short_description' => 'required|string|max:255',
-            'sku' => 'required|string|max:100|unique:products,sku,' . $id,
-            'brand' => 'string|max:100',
-            'long_description' => 'string',
-            'weight' => 'string',
-            'dimension' => 'string|max:100',
+            'company' => 'required|string|max:255',
+            'strength' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'price' => 'required|numeric|min:1',
+            'quantity' => 'required|integer|min:1',
+            'batch_no' => 'required|string|max:100',
+            'expiry_date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
-
-        $product = Product::findOrFail($id);
+        $product = medicines::findOrFail($id);
 
         if ($request->hasFile('image')) {
-
             if ($product->image && file_exists(public_path('uploads/' . $product->image))) {
                 unlink(public_path('uploads/' . $product->image));
             }
 
             $img = time() . '.' . $request->image->getClientOriginalExtension();
-
             $request->image->move(public_path('uploads'), $img);
-
             $product->image = $img;
         }
 
         $product->name = $request->name;
-        $product->full_price = $request->full_price;
-        $product->original_price = $request->original_price;
-        $product->short_description = $request->short_description;
-        $product->sku = $request->sku;
-        $product->brand = $request->brand;
-        $product->long_description = $request->long_description;
-        $product->weight = $request->weight;
-        $product->dimension = $request->dimension;
+        $product->company = $request->company;
+        $product->strength = $request->strength;
+        $product->type = $request->type;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->batch_no = $request->batch_no;
+        $product->expiry_date = $request->expiry_date;
+        $product->category_id = $request->category_id;
 
         $product->save();
 
-        return redirect()->route('products.product')->with('success', 'Product updated successfully');
+        return redirect()->route('products.product')->with('success', 'Medicine updated successfully');
     }
 }

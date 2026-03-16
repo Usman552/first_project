@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\categorycontroller;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Controller;
@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('orders')->name('orders.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/create', [OrderController::class, 'create'])->name('create');
+        Route::post('/store', [OrderController::class, 'store'])->name('store');
         Route::get('order/edit/{id}', [OrderController::class, 'edit'])->name('edit');
         Route::put('order/update/{id}', [OrderController::class, 'update'])->name('update');
         Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->name('destroy');

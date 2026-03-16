@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\OrderItem;
 
-class OrderModel extends Model
+class Orders extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'total_price',
@@ -19,7 +19,15 @@ class OrderModel extends Model
         'phone'
     ];
 
-    public function items(){
+    // Relation with Order Items
+    public function items()
+    {
         return $this->hasMany(OrderItem::class);
+    }
+
+    // Relation with User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

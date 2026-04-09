@@ -1,19 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\category;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\medicines;
+use App\Models\Orders;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class categorycontroller extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $category=category::paginate(10);
-        return view("pages.categories.category").compact('category');
+        $orders = Orders::latest()->get();
+        return view('Admin.orders.orders', compact('orders'));
+    }
+    // View Single Order Detail
+    public function show($id)
+    {
+        $order = Orders::with('orderitems.product', 'user')->findOrFail($id);
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
@@ -21,7 +30,8 @@ class categorycontroller extends Controller
      */
     public function create()
     {
-        return view('pages.categories.AddCategory');
+        $products =medicines::all();
+        return view ('Admin.orders.AddOrders',compact('products'));
     }
 
     /**
@@ -29,18 +39,9 @@ class categorycontroller extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required','max:255'
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
         //
     }
+
 
     /**
      * Show the form for editing the specified resource.
